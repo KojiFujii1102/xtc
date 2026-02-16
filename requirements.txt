@@ -1,3 +1,8 @@
+# LLM Chatbot dependencies
+streamlit==1.31.0
+openai==1.12.0
+
+# MNIST Classification dependencies
 tensorflow>=2.13.0
 keras>=2.13.0
 numpy>=1.24.0
@@ -5,4 +10,3 @@ matplotlib>=3.7.0
 seaborn>=0.12.0
 scikit-learn>=1.3.0
 Pillow>=10.0.0
-streamlit>=1.25.0

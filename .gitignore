@@ -56,9 +56,16 @@ logs/
 /confusion_matrix.png
 /confidence_distribution.png
 
+# Environment variables
+.env
+
+# IDE
+*.swp
+*.swo
+
 # OS
 .DS_Store
 Thumbs.db
 
-# Environment
-.env
+# Streamlit
+.streamlit/
