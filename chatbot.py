@@ -1,5 +1,5 @@
 import streamlit as st
-import openai
+import anthropic
 import os
 from datetime import datetime
 
@@ -16,15 +16,16 @@ st.title("🤖 シンプルLLMチャットボット")
 # サイドバーでAPI設定
 with st.sidebar:
     st.header("⚙️ 設定")
-    api_key = st.text_input("OpenAI API Key", type="password", value=os.getenv("OPENAI_API_KEY", ""))
+    api_key = st.text_input("Claude API Key", type="password", value=os.getenv("ANTHROPIC_API_KEY", ""))
     
     model = st.selectbox(
         "モデル選択",
-        ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo-preview"],
+        ["claude-3-5-sonnet-20241022", "claude-3-5-haiku-20241022", "claude-3-opus-20240229"],
         index=0
     )
     
-    temperature = st.slider("Temperature", 0.0, 2.0, 0.7, 0.1)
+    temperature = st.slider("Temperature", 0.0, 1.0, 0.7, 0.1)
+    max_tokens = st.slider("Max Tokens", 256, 4096, 2048, 256)
     
     if st.button("チャット履歴をクリア"):
         st.session_state.messages = []
@@ -33,7 +34,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 使い方")
     st.markdown("""
-    1. OpenAI API Keyを入力
+    1. Claude API Keyを入力
     2. メッセージを入力して送信
     3. AIからの返答を確認
     """)
@@ -51,7 +52,7 @@ for message in st.session_state.messages:
 if prompt := st.chat_input("メッセージを入力してください..."):
     # API Keyのチェック
     if not api_key:
-        st.error("⚠️ OpenAI API Keyを入力してください")
+        st.error("⚠️ Claude API Keyを入力してください")
         st.stop()
     
     # ユーザーメッセージを追加
@@ -67,24 +68,22 @@ if prompt := st.chat_input("メッセージを入力してください..."):
         full_response = ""
         
         try:
-            # OpenAI APIクライアントの設定
-            client = openai.OpenAI(api_key=api_key)
+            # Claude APIクライアントの設定
+            client = anthropic.Anthropic(api_key=api_key)
             
             # ストリーミングレスポンスを取得
-            stream = client.chat.completions.create(
+            with client.messages.stream(
                 model=model,
+                max_tokens=max_tokens,
+                temperature=temperature,
                 messages=[
                     {"role": m["role"], "content": m["content"]}
                     for m in st.session_state.messages
                 ],
-                temperature=temperature,
-                stream=True,
-            )
-            
-            # レスポンスをストリーミング表示
-            for chunk in stream:
-                if chunk.choices[0].delta.content is not None:
-                    full_response += chunk.choices[0].delta.content
+            ) as stream:
+                # レスポンスをストリーミング表示
+                for text in stream.text_stream:
+                    full_response += text
                     message_placeholder.markdown(full_response + "▌")
             
             message_placeholder.markdown(full_response)
@@ -99,6 +98,6 @@ if prompt := st.chat_input("メッセージを入力してください..."):
 # フッター
 st.markdown("---")
 st.markdown(
-    "<div style='text-align: center; color: gray;'>Powered by OpenAI GPT</div>",
+    "<div style='text-align: center; color: gray;'>Powered by Claude (Anthropic)</div>",
     unsafe_allow_html=True
 )

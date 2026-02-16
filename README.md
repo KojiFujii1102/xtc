@@ -6,11 +6,11 @@
 
 ### 1. 🤖 シンプルLLMチャットボット
 
-OpenAI APIを使用したシンプルなチャットボットアプリケーションです。
+Claude APIを使用したシンプルなチャットボットアプリケーションです。
 
 **機能：**
 - 💬 リアルタイムストリーミングチャット
-- 🎛️ モデル選択（GPT-3.5, GPT-4など）
+- 🎛️ モデル選択（Claude 3.5 Sonnet, Claude 3.5 Haiku, Claude 3 Opusなど）
 - 🌡️ Temperature調整
 - 📝 チャット履歴の保持とクリア
 - 🎨 シンプルで使いやすいUI
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 
 #### LLMチャットボットを使う場合
 
-OpenAI API Keyが必要です。`.env`ファイルを作成するか、アプリのサイドバーから入力してください。
+Claude API Keyが必要です。`.env`ファイルを作成するか、アプリのサイドバーから入力してください。
 
 ```bash
 streamlit run chatbot.py
@@ -79,7 +79,7 @@ streamlit run src/app.py
 ### LLMチャットボット
 - Python 3.x
 - Streamlit
-- OpenAI API
+- Claude API (Anthropic)
 
 ### MNIST分類
 - TensorFlow 2.13以上
