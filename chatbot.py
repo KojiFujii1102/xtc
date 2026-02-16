@@ -2,13 +2,22 @@ import streamlit as st
 import anthropic
 import os
 import sys
+import locale
 from datetime import datetime
 
+# ロケールとエンコーディングを設定
+os.environ['LANG'] = 'en_US.UTF-8'
+os.environ['LC_ALL'] = 'en_US.UTF-8'
+os.environ['PYTHONIOENCODING'] = 'utf-8'
+
 # UTF-8エンコーディングを確保
-if sys.stdout.encoding != 'utf-8':
-    sys.stdout.reconfigure(encoding='utf-8')
-if sys.stderr.encoding != 'utf-8':
-    sys.stderr.reconfigure(encoding='utf-8')
+try:
+    if sys.stdout.encoding != 'utf-8':
+        sys.stdout.reconfigure(encoding='utf-8')
+    if sys.stderr.encoding != 'utf-8':
+        sys.stderr.reconfigure(encoding='utf-8')
+except:
+    pass
 
 # ページ設定
 st.set_page_config(
@@ -75,8 +84,11 @@ if prompt := st.chat_input("メッセージを入力してください..."):
         full_response = ""
         
         try:
-            # Claude APIクライアントの設定
-            client = anthropic.Anthropic(api_key=api_key)
+            # Claude APIクライアントの設定（デフォルトヘッダーなし）
+            client = anthropic.Anthropic(
+                api_key=api_key,
+                default_headers={}
+            )
             
             # メッセージを準備
             message_history = []
