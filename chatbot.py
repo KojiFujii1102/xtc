@@ -1,7 +1,14 @@
 import streamlit as st
 import anthropic
 import os
+import sys
 from datetime import datetime
+
+# UTF-8エンコーディングを確保
+if sys.stdout.encoding != 'utf-8':
+    sys.stdout.reconfigure(encoding='utf-8')
+if sys.stderr.encoding != 'utf-8':
+    sys.stderr.reconfigure(encoding='utf-8')
 
 # ページ設定
 st.set_page_config(
@@ -71,15 +78,21 @@ if prompt := st.chat_input("メッセージを入力してください..."):
             # Claude APIクライアントの設定
             client = anthropic.Anthropic(api_key=api_key)
             
+            # メッセージを準備
+            message_history = []
+            for m in st.session_state.messages:
+                if m["role"] in ["user", "assistant"]:
+                    message_history.append({
+                        "role": m["role"],
+                        "content": str(m["content"])
+                    })
+            
             # ストリーミングレスポンスを取得
             with client.messages.stream(
                 model=model,
                 max_tokens=max_tokens,
                 temperature=temperature,
-                messages=[
-                    {"role": m["role"], "content": m["content"]}
-                    for m in st.session_state.messages
-                ],
+                messages=message_history,
             ) as stream:
                 # レスポンスをストリーミング表示
                 for text in stream.text_stream:
@@ -88,9 +101,16 @@ if prompt := st.chat_input("メッセージを入力してください..."):
             
             message_placeholder.markdown(full_response)
             
+        except anthropic.APIError as e:
+            error_message = f"Claude APIエラー: {str(e)}"
+            st.error(error_message)
+            full_response = error_message
         except Exception as e:
-            st.error(f"エラーが発生しました: {str(e)}")
-            full_response = f"エラー: {str(e)}"
+            error_message = f"エラーが発生しました: {str(e)}"
+            st.error(error_message)
+            full_response = error_message
+            import traceback
+            st.error(f"詳細: {traceback.format_exc()}")
     
     # アシスタントのメッセージを履歴に追加
     st.session_state.messages.append({"role": "assistant", "content": full_response})
