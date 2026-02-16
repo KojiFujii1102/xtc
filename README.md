@@ -4,21 +4,32 @@
 
 このリポジトリには複数の機械学習プロジェクトが含まれています：
 
-### 1. 🤖 シンプルLLMチャットボット
+### 1. 🤖 Claude チャットボット (コンソール版)
 
-Claude APIを使用したシンプルなチャットボットアプリケーションです。
+Claude APIを使用したシンプルなコンソールベースのチャットボットです。
 
 **機能：**
-- 💬 リアルタイムストリーミングチャット
-- 🎛️ モデル選択（Claude 3.5 Sonnet, Claude 3.5 Haiku, Claude 3 Opusなど）
-- 🌡️ Temperature調整
-- 📝 チャット履歴の保持とクリア
-- 🎨 シンプルで使いやすいUI
+- 💬 コンソールでの対話型チャット
+- 🔄 会話履歴の保持
+- 📝 ストリーミングレスポンス
+- 🎯 シンプルで使いやすい
 
 **使い方：**
 ```bash
-streamlit run chatbot.py
+# API Keyを環境変数に設定（推奨）
+export ANTHROPIC_API_KEY="your-api-key-here"
+
+# チャットボットを起動
+python3 claude_chat.py
 ```
+
+または、API Keyを起動時に入力することもできます：
+```bash
+python3 claude_chat.py
+# プロンプトが表示されたらAPI Keyを入力
+```
+
+終了するには `exit`、`quit`、または `q` と入力してください。
 
 ### 2. 📊 MNIST手書き数字分類
 
@@ -40,8 +51,8 @@ webapp/
 ├── models/                # 訓練済みモデル保存先
 ├── data/                  # データセット保存先
 ├── logs/                  # TensorBoard ログ
-├── chatbot.py            # LLMチャットボット
-└── requirements.txt      # Python依存パッケージ
+├── claude_chat.py         # Claude チャットボット
+└── requirements.txt       # Python依存パッケージ
 ```
 
 ## 🚀 セットアップ
@@ -54,12 +65,16 @@ pip install -r requirements.txt
 
 ### 2. プロジェクトの選択
 
-#### LLMチャットボットを使う場合
+#### Claude チャットボットを使う場合
 
-Claude API Keyが必要です。`.env`ファイルを作成するか、アプリのサイドバーから入力してください。
+Claude API Keyが必要です。[Anthropic Console](https://console.anthropic.com/)でAPI Keyを取得してください。
 
 ```bash
-streamlit run chatbot.py
+# 環境変数に設定（推奨）
+export ANTHROPIC_API_KEY="your-api-key-here"
+
+# チャットボットを起動
+python3 claude_chat.py
 ```
 
 #### MNIST分類を使う場合
@@ -76,16 +91,39 @@ streamlit run src/app.py
 
 ## 🧠 技術スタック
 
-### LLMチャットボット
+### Claude チャットボット
 - Python 3.x
-- Streamlit
 - Claude API (Anthropic)
+- コンソールベースのUI
 
 ### MNIST分類
 - TensorFlow 2.13以上
 - Keras 2.13以上
 - NumPy, Matplotlib, Seaborn
 - scikit-learn, Pillow
+
+## 📝 使用例
+
+### Claude チャットボット
+```bash
+$ python3 claude_chat.py
+
+==================================================
+Claude チャットボット (コンソール版)
+==================================================
+
+チャットを開始します。終了するには 'exit' または 'quit' と入力してください。
+--------------------------------------------------
+
+あなた: こんにちは！
+Claude: こんにちは！お手伝いできることがあれば教えてください。
+
+あなた: Pythonについて教えて
+Claude: Pythonは...
+
+あなた: exit
+チャットを終了します。
+```
 
 ## 📝 ライセンス
 
