@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# TensorFlow/Keras
+models/*.h5
+models/*.tflite
+*.pb
+checkpoint
+*.ckpt*
+*.index
+*.meta
+
+# Data
+data/
+*.npy
+*.npz
+
+# Logs
+logs/
+*.log
+
+# Output files (root directory)
+/training_history.png
+/predictions.png
+/confusion_matrix.png
+/confidence_distribution.png
+
+# Environment variables
+.env
+
+# IDE
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/
