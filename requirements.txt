@@ -1,6 +1,7 @@
 # LLM Chatbot dependencies
 streamlit==1.31.0
 anthropic>=0.79.0
+gradio>=6.0.0
 
 # MNIST Classification dependencies
 tensorflow>=2.13.0
