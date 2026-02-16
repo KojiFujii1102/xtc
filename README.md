@@ -4,9 +4,11 @@
 
 このリポジトリには複数の機械学習プロジェクトが含まれています：
 
-### 1. 🤖 Claude チャットボット (コンソール版)
+### 1. 🤖 Claude チャットボット
 
-Claude APIを使用したシンプルなコンソールベースのチャットボットです。
+Claude APIを使用したチャットボットです。コンソール版とStreamlit版の2種類があります。
+
+#### 💻 コンソール版 (`claude_chat.py`)
 
 **機能：**
 - 💬 コンソールでの対話型チャット
@@ -23,13 +25,25 @@ export ANTHROPIC_API_KEY="your-api-key-here"
 python3 claude_chat.py
 ```
 
-または、API Keyを起動時に入力することもできます：
+終了するには `exit`、`quit`、または `q` と入力してください。
+
+#### 🌐 Streamlit版 (`streamlit_chat.py`)
+
+**機能：**
+- 🖥️ ブラウザベースのWebインターフェース
+- 💬 リアルタイムストリーミングチャット
+- 🎛️ モデル選択（Claude 3.5 Sonnet, Haiku, Opus）
+- 🔧 Max Tokens設定
+- 📝 チャット履歴の保持とクリア
+
+**使い方：**
 ```bash
-python3 claude_chat.py
-# プロンプトが表示されたらAPI Keyを入力
+# Streamlitアプリを起動
+streamlit run streamlit_chat.py
 ```
 
-終了するには `exit`、`quit`、または `q` と入力してください。
+ブラウザで `http://localhost:8501` が自動的に開きます。
+サイドバーでAPI Keyを入力してください。
 
 ### 2. 📊 MNIST手書き数字分類
 
@@ -51,7 +65,9 @@ webapp/
 ├── models/                # 訓練済みモデル保存先
 ├── data/                  # データセット保存先
 ├── logs/                  # TensorBoard ログ
-├── claude_chat.py         # Claude チャットボット
+├── claude_chat.py         # Claudeチャットボット（コンソール版）
+├── streamlit_chat.py      # Claudeチャットボット（Streamlit版）
+├── demo_chatbot.py        # デモンストレーション
 └── requirements.txt       # Python依存パッケージ
 ```
 
@@ -65,10 +81,11 @@ pip install -r requirements.txt
 
 ### 2. プロジェクトの選択
 
-#### Claude チャットボットを使う場合
+#### Claudeチャットボットを使う場合
 
 Claude API Keyが必要です。[Anthropic Console](https://console.anthropic.com/)でAPI Keyを取得してください。
 
+**コンソール版:**
 ```bash
 # 環境変数に設定（推奨）
 export ANTHROPIC_API_KEY="your-api-key-here"
@@ -76,6 +93,14 @@ export ANTHROPIC_API_KEY="your-api-key-here"
 # チャットボットを起動
 python3 claude_chat.py
 ```
+
+**Streamlit版（Web UI）:**
+```bash
+# Streamlitアプリを起動
+streamlit run streamlit_chat.py
+```
+
+ブラウザが自動的に開きます。サイドバーでAPI Keyを入力してください。
 
 #### MNIST分類を使う場合
 
@@ -91,10 +116,10 @@ streamlit run src/app.py
 
 ## 🧠 技術スタック
 
-### Claude チャットボット
+### Claudeチャットボット
 - Python 3.x
 - Claude API (Anthropic)
-- コンソールベースのUI
+- コンソール版 / Streamlit Web版
 
 ### MNIST分類
 - TensorFlow 2.13以上
