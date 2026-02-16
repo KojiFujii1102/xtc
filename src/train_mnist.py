@@ -243,7 +243,7 @@ def main():
     history = classifier.train(
         x_train, y_train,
         x_val, y_val,
-        epochs=50,
+        epochs=10,
         batch_size=128,
         model_path='models/mnist_model.h5'
     )
